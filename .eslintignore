@@ -1,0 +1,8 @@
+#Exclu car le nom des propriétés font référence aux noms des champs de la bdd qui sont en snake_case
+api/models/*.js
+config/
+node_modules/
+database/
+
+package.json
+package-lock.json

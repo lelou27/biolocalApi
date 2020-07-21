@@ -1,0 +1,7 @@
+/node_modules
+/.tmp
+/assets/images/*
+/assets/dependencies/**/*.js
+/views/**/*.ejs
+package-lock.json
+database/*
