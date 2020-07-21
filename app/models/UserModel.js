@@ -25,13 +25,16 @@ const UserSchema = new mongoose.Schema({
     required: 'The password is required'
   },
   userXP: {
-    type: Number, min: 0
+    type: Number, min: 0, default: 0
   },
   birthDate: Date,
   sexe: String,
   facebookToken: String,
   googleToken: String,
-  userAvatar: String
+  userAvatar: String,
+  active: {type: Boolean, default: false},
+  verifiedToken: {type: String, default: null},
+  emailVerifiedAt: Date
 }, {
   timestamps: true
 });

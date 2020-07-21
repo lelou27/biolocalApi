@@ -1,18 +1,80 @@
 const UserService = require('../services/UserService');
+const HttpService = require('../services/HttpServiceResponse');
 
 module.exports = {
-  getUsers: async function (req, res, next) {
-    const page = req.params.page ? req.params.page : 1;
-    const limit = req.params.limit ? req.params.limit : 10;
+  getAllUsers: async function (req, res) {
     try {
-      const users = await UserService.getUsers({}, page, limit);
-      return res.status(200).json({
-        status: 200,
-        data: users,
-        message: 'Succesfully Users Retrieved',
-      });
+      const users = await UserService.getAllUsers();
+
+      return HttpService.ok(res, users, 'Succesfully Users Retrieved');
     } catch (e) {
-      return res.status(400).json({ status: 400, message: e.message });
+      return HttpService.serverError(res, e.message);
     }
   },
+
+  signup: async function (req, res) {
+    const params = req.query;
+
+    try {
+      const user = await UserService.signup(params);
+
+      return HttpService.ok(res, user, 'User created successfully');
+    } catch (e) {
+      return HttpService.serverError(res, e.message);
+    }
+  },
+
+  login: async function(req, res) {
+    const params = req.query;
+
+    if (!params.email || !params.password) {
+      return HttpService.badRequest(
+          res,
+          "Mauvais nombre de paramètres"
+      );
+    }
+
+    try {
+      const user = await UserService.login(params.email, params.password);
+
+      return HttpService.ok(res, user, 'User logged successfull');
+    } catch (e) {
+      return HttpService.serverError(res, e.message);
+    }
+  },
+
+  getUser: async function (req, res) {
+    const params = req.params;
+
+    if (!params.idUser) {
+      return HttpService.badRequest(
+        res,
+        "Impossible de trouver l'id utilisateur"
+      );
+    }
+
+    try {
+      const user = await UserService.getUser(params.idUser);
+
+      return HttpService.ok(res, user, 'User finded');
+    } catch (e) {
+      return HttpService.serverError(res, e.message);
+    }
+  },
+
+  verifieToken: async function (req, res) {
+    const params = req.params;
+
+    if (!params.token) {
+      return HttpService.badRequest(res, 'Impossible de trouver le token');
+    }
+
+    try {
+      const user = await UserService.verifieToken(params.token);
+
+      return HttpService.ok(res, user, 'User verified');
+    } catch (e) {
+      return HttpService.serverError(res, e.message);
+    }
+  }
 };

@@ -14,7 +14,7 @@ const app = express();
 
 // Parse incoming requests data
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(require('./app/routes/UserRoutes'));
 
