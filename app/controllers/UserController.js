@@ -1,5 +1,7 @@
 const UserService = require('../services/UserService');
 const HttpService = require('../services/HttpServiceResponse');
+const path = require('path');
+const fs = require('fs');
 
 module.exports = {
   getAllUsers: async function (req, res) {
@@ -87,12 +89,17 @@ module.exports = {
       }
 
       const userBarCodePath = await UserService.getUserBarCode(params.idUser);
+      const pathRoot = path.dirname(require.main.filename || process.mainModule.filename);
 
-      const base64 = Buffer.from(userBarCodePath, 'binary').toString('base64');
-      const result = new Buffer(base64, 'base64');
+      await fs.readFile(`${pathRoot}${userBarCodePath}`, (err, data) => {
+        if (err) throw err;
 
-      res.contentType('image/png');
-      res.send(result);
+        const base64 = Buffer.from(data, 'binary').toString('base64');
+        const result = new Buffer(base64, 'base64');
+
+        res.contentType('image/png');
+        res.send(result);
+      });
     } catch (e) {
       return HttpService.serverError(res, e.message);
     }
