@@ -4,6 +4,8 @@ const moment = require('moment');
 const bcrypt = require('bcrypt');
 const BarCodeService = require('./BarCodeService');
 
+const Commercant = require('../models/CommercantModel');
+
 const saltRound = 10;
 
 module.exports = {

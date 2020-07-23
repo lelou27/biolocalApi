@@ -3,6 +3,7 @@ const router = express.Router();
 
 const UserController = require('../controllers/UserController');
 const AchatController = require('../controllers/AchatController');
+const CommercantController = require('../controllers/CommercantController');
 
 /**
 * User routes
@@ -18,5 +19,10 @@ router.get('/getUserBarcode', UserController.getUserBarCode);
  * Achat routes
  */
 router.get('/achat', AchatController.postAchat);
+
+/**
+ * Commercants
+ */
+router.get('/commercants', CommercantController.getCommercants);
 
 module.exports = router;
