@@ -23,7 +23,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(require('./app/routes/UserRoutes'));
+app.use(require('./app/routes/routes'));
 
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`);

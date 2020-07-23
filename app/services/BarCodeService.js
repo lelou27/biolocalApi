@@ -6,10 +6,10 @@ module.exports = {
     try {
       await bwipjs.toBuffer(
         {
-          bcid: 'bc412', // Barcode type
-          text: user._id.toString().toUpperCase(), // Text to encode
-          scale: 1, // 3x scaling factor
-          height: 60, // Bar height, in millimeters
+          bcid: 'qrcode', // Barcode type
+          text: `http://192.168.1.7:5000/achat?idUser=${user._id.toString()}&montantAchat=${Math.floor(Math.random() * 100) + 1}`, // Text to encode
+          scale: 3, // 3x scaling factor
+          height: 40, // Bar height, in millimeters
           includetext: true, // Show human-readable text
           textxalign: 'center', // Always good to set this
         },
