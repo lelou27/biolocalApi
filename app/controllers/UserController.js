@@ -48,14 +48,14 @@ module.exports = {
     if (!params.idUser) {
       return HttpService.badRequest(
         res,
-        "Impossible de trouver l'id utilisateur"
+        'Impossible de trouver l\'id utilisateur'
       );
     }
 
     try {
       const user = await UserService.getUser(params.idUser);
 
-      return HttpService.ok(res, user, 'User finded');
+      return HttpService.ok(res, user, 'User found');
     } catch (e) {
       return HttpService.serverError(res, e.message);
     }
@@ -84,7 +84,7 @@ module.exports = {
       if (!params.idUser) {
         return HttpService.badRequest(
           res,
-          "Impossible de trouver l'id utilisateur"
+          'Impossible de trouver l\'id utilisateur'
         );
       }
 
@@ -92,7 +92,7 @@ module.exports = {
       const pathRoot = path.dirname(require.main.filename || process.mainModule.filename);
 
       await fs.readFile(`${pathRoot}${userBarCodePath}`, (err, data) => {
-        if (err) throw err;
+        if (err) {throw err;}
 
         const base64 = Buffer.from(data, 'binary').toString('base64');
         const result = new Buffer(base64, 'base64');
@@ -104,4 +104,22 @@ module.exports = {
       return HttpService.serverError(res, e.message);
     }
   },
+
+  getXpActuels: async function (req, res) {
+    const params = req.params;
+
+    if (!params.idUser) {
+      return HttpService.badRequest(
+        res,
+        'Impossible de trouver l\'id utilisateur'
+      );
+    }
+
+    try {
+      const xpActuels = await UserService.getXpActuels(params.idUser);
+      return HttpService.ok(res, xpActuels, 'retour des xps ok');
+    }catch (e) {
+      return HttpService.serverError(res, e.message);
+    }
+  }
 };

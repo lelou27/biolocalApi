@@ -1,4 +1,5 @@
 const User = require('../models/UserModel');
+const Don = require('../models/DonModel');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 const bcrypt = require('bcrypt');
@@ -41,7 +42,7 @@ module.exports = {
 
       if (!isValid) {
         throw new Error(
-          "Impossible de créer l'utilisateur : Les données ne sont pas corrects"
+          'Impossible de créer l\'utilisateur : Les données ne sont pas corrects'
         );
       }
 
@@ -58,7 +59,7 @@ module.exports = {
 
       return userReturn;
     } catch (e) {
-      throw Error("Impossible de créer l'utilisateur : " + e.message);
+      throw Error('Impossible de créer l\'utilisateur : ' + e.message);
     }
   },
 
@@ -72,10 +73,10 @@ module.exports = {
       if (isValid) {
         return user;
       } else {
-        throw Error("Le mot de passe n'est pas correct");
+        throw Error('Le mot de passe n\'est pas correct');
       }
     } catch (e) {
-      throw Error("Impossible de connecter l'utilisateur : " + e.message);
+      throw Error('Impossible de connecter l\'utilisateur : ' + e.message);
     }
   },
 
@@ -83,7 +84,7 @@ module.exports = {
     try {
       return await User.findById(idUser);
     } catch (e) {
-      throw Error("Impossible de récupérer l'utilisateur avec l'id " + idUser);
+      throw Error('Impossible de récupérer l\'utilisateur avec l\'id ' + idUser);
     }
   },
 
@@ -114,10 +115,11 @@ module.exports = {
       user.save();
       return user;
     } catch (e) {
-      throw Error("Impossible de vérifier l'utilisateur");
+      throw Error('Impossible de vérifier l\'utilisateur');
     }
   },
 
+  //récupère le code barre avec l'id utilisateur
   getUserBarCode: async function (idUser) {
     try {
       const user = await User.findById(idUser);
@@ -128,11 +130,21 @@ module.exports = {
     }
   },
 
+  //va chercher les points qu'il reste à l'utilisateur, sans les dons déjà effectués
   getXpActuels: async function(idUser) {
     try {
       const user = await User.findById(idUser);
       const userXp = user.userXP;
+      const dons = await Don.find({user: idUser});
+      console.log(dons);
+      let montantsDon = 0;
 
+      //on fait le total des dons, et on retire cette valeure au total des points gagnés par l'utilisateur
+      dons.forEach(function(don) {
+        montantsDon += don.montantDon;
+      });
+
+      return userXp - montantsDon;
     } catch (e) {
       throw Error('impossible de récupérer les points actuels:' +  e.message);
     }

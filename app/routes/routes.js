@@ -15,6 +15,7 @@ router.get('/user/:idUser', UserController.getUser);
 router.get('/user/verifieToken/:token', UserController.verifieToken);
 router.post('/login', UserController.login);
 router.get('/getUserBarcode', UserController.getUserBarCode);
+router.get('/getActuelsXp/:idUser', UserController.getXpActuels);
 
 /**
  * Achat routes
