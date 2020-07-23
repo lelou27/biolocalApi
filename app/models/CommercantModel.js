@@ -25,6 +25,8 @@ const CommercantSchema = new mongoose.Schema(
     poscod: { type: String, min: 3, max: 10 },
     phone: Number,
     logo: String,
+      latitude: String,
+      longitude: String,
     tags: [
       {
         type: mongoose.Schema.Types.ObjectId,
