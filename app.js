@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 
+const PORT = 5000;
 const mongoose = require('mongoose');
 const dbConf = require('./config/db/dbConf')
 
@@ -18,7 +19,6 @@ app.use(bodyParser.json());
 
 app.use(require('./app/routes/UserRoutes'));
 
-const PORT = 5000;
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`);
 });

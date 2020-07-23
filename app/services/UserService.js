@@ -2,6 +2,7 @@ const User = require('../models/UserModel');
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 const bcrypt = require('bcrypt');
+const BarCodeService = require('./BarCodeService');
 
 const saltRound = 10;
 
@@ -42,13 +43,16 @@ module.exports = {
         );
       }
 
-      let userReturn = await bcrypt.hash(params.password, saltRound).then(async function (hash) {
-        params.password = hash;
-        const user = await User.create(params);
-        return user;
-      });
+      let userReturn = await bcrypt
+        .hash(params.password, saltRound)
+        .then(async function (hash) {
+          params.password = hash;
+          const user = await User.create(params);
+          return user;
+        });
 
       userReturn = await this.setUserToken(userReturn);
+      userReturn.barcodePath = await BarCodeService.generateBarCode(userReturn);
 
       return userReturn;
     } catch (e) {
@@ -109,6 +113,16 @@ module.exports = {
       return user;
     } catch (e) {
       throw Error("Impossible de vérifier l'utilisateur");
+    }
+  },
+
+  getUserBarCode: async function (idUser) {
+    try {
+      const user = await User.findById(idUser);
+
+      return user.barcodePath ? user.barcodePath : null;
+    } catch (e) {
+      throw Error('Impossible de récupérer le code barre utilisateur : ' + e.message);
     }
   },
 };

@@ -24,14 +24,11 @@ module.exports = {
     }
   },
 
-  login: async function(req, res) {
+  login: async function (req, res) {
     const params = req.query;
 
     if (!params.email || !params.password) {
-      return HttpService.badRequest(
-          res,
-          "Mauvais nombre de paramètres"
-      );
+      return HttpService.badRequest(res, 'Mauvais nombre de paramètres');
     }
 
     try {
@@ -76,5 +73,28 @@ module.exports = {
     } catch (e) {
       return HttpService.serverError(res, e.message);
     }
-  }
+  },
+
+  getUserBarCode: async function (req, res) {
+    try {
+      const params = req.query;
+
+      if (!params.idUser) {
+        return HttpService.badRequest(
+          res,
+          "Impossible de trouver l'id utilisateur"
+        );
+      }
+
+      const userBarCodePath = await UserService.getUserBarCode(params.idUser);
+
+      const base64 = Buffer.from(userBarCodePath, 'binary').toString('base64');
+      const result = new Buffer(base64, 'base64');
+
+      res.contentType('image/png');
+      res.send(result);
+    } catch (e) {
+      return HttpService.serverError(res, e.message);
+    }
+  },
 };
