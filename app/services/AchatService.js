@@ -7,6 +7,7 @@ module.exports = {
       const user = await UserService.getUser(idUser);
       const achat = await Achat.create({ user: user._id, montantAchat });
       await achat.save();
+      user.userXP += montantAchat;
 
       return achat;
     } catch (e) {

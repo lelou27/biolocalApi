@@ -125,4 +125,14 @@ module.exports = {
       throw Error('Impossible de récupérer le code barre utilisateur : ' + e.message);
     }
   },
+
+  getXpActuels: async function(idUser) {
+    try {
+      const user = await User.findById(idUser);
+      const userXp = user.userXP;
+
+    } catch (e) {
+      throw Error('impossible de récupérer les points actuels:' +  e.message);
+    }
+  }
 };
