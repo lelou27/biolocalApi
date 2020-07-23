@@ -34,7 +34,8 @@ const UserSchema = new mongoose.Schema({
   userAvatar: String,
   active: {type: Boolean, default: false},
   verifiedToken: {type: String, default: null},
-  emailVerifiedAt: Date
+  emailVerifiedAt: Date,
+  barcodePath: String
 }, {
   timestamps: true
 });
