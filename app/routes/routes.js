@@ -3,9 +3,10 @@ const router = express.Router();
 
 const UserController = require('../controllers/UserController');
 const AchatController = require('../controllers/AchatController');
+const AssociationController = require('../controllers/AssociationController');
 
 /**
-* User routes
+ * User routes
  */
 router.get('/users', UserController.getAllUsers);
 router.post('/signup', UserController.signup);
@@ -18,5 +19,10 @@ router.get('/getUserBarcode', UserController.getUserBarCode);
  * Achat routes
  */
 router.get('/achat', AchatController.postAchat);
+
+/**
+ * Associations
+ */
+router.get('/associations', AssociationController.getAllAssociations);
 
 module.exports = router;
