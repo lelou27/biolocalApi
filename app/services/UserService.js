@@ -137,8 +137,7 @@ module.exports = {
     try {
       const user = await User.findById(idUser);
       const userXp = user.userXP;
-      const dons = await Don.find({ user: idUser });
-      console.log(dons);
+      const dons = await Don.find({user: idUser});
       let montantsDon = 0;
 
       //on fait le total des dons, et on retire cette valeure au total des points gagnés par l'utilisateur
@@ -146,7 +145,7 @@ module.exports = {
         montantsDon += don.montantDon;
       });
 
-      return userXp - montantsDon;
+      return userXp - (montantsDon);
     } catch (e) {
       throw Error('impossible de récupérer les points actuels:' + e.message);
     }
