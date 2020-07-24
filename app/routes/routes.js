@@ -5,6 +5,7 @@ const UserController = require('../controllers/UserController');
 const AchatController = require('../controllers/AchatController');
 const AssociationController = require('../controllers/AssociationController');
 const CommercantController = require('../controllers/CommercantController');
+const DonController = require('../controllers/DonController');
 
 /**
  * User routes
@@ -31,5 +32,10 @@ router.get('/associations', AssociationController.getAllAssociations);
  * Commercants
  */
 router.get('/commercants', CommercantController.getCommercants);
+
+/**
+ * Commercants
+ */
+router.post('/don/', DonController.postDon);
 
 module.exports = router;
