@@ -27,7 +27,7 @@ module.exports = {
   },
 
   login: async function (req, res) {
-    const params = req.query;
+    const params = req.body;
 
     if (!params.email || !params.password) {
       return HttpService.badRequest(res, 'Mauvais nombre de paramètres');
@@ -38,6 +38,7 @@ module.exports = {
 
       return HttpService.ok(res, user, 'User logged successfull');
     } catch (e) {
+      console.log(e.message)
       return HttpService.serverError(res, e.message);
     }
   },
